@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Viaje a Tailandia</title>
+<meta name="description" content="Guía de bolsillo del viaje a Tailandia, editable y sin conexión.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0B7A75">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tailandia">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: app móvil de una columna. Cabecera fija arriba, barra de pestañas fija abajo, contenido a una columna (máx. 640px). */
+:root{
+  --bg:#F1F5F4; --surface:#FFFFFF; --surface2:#E7EEED; --fg:#10272A; --muted:#566C6F; --line:#D3DEDC;
+  --accent:#0B7A75; --accent-fg:#FFFFFF; --accent-soft:#D5EDEA;
+  --gold:#8A5A00; --gold-soft:#F8EACB; --danger:#B42318; --danger-soft:#FBE4E1;
+  --tile-fg:#FFFFFF; --c-bkk:#5A55D6; --c-ayu:#B26F00; --c-cnx:#2C8A4B; --c-kbi:#0C82AE; --c-lipe:#0A9A96; --c-flt:#6B7B7D;
+  --font-display:"Bricolage Grotesque","Figtree",system-ui,sans-serif;
+  --font-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1718; --surface:#122427; --surface2:#1A3236; --fg:#E5F1EF; --muted:#8CA7A9; --line:#26434A;
+    --accent:#3CC4BA; --accent-fg:#06201F; --accent-soft:#12383A;
+    --gold:#F2C14E; --gold-soft:#3A2F12; --danger:#FF8F85; --danger-soft:#44211E;
+    --tile-fg:#07191A; --c-bkk:#9A97FF; --c-ayu:#E9A93A; --c-cnx:#5FCB82; --c-kbi:#52BEE8; --c-lipe:#3CD0CA; --c-flt:#9DB0B2;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1718; --surface:#122427; --surface2:#1A3236; --fg:#E5F1EF; --muted:#8CA7A9; --line:#26434A;
+  --accent:#3CC4BA; --accent-fg:#06201F; --accent-soft:#12383A;
+  --gold:#F2C14E; --gold-soft:#3A2F12; --danger:#FF8F85; --danger-soft:#44211E;
+  --tile-fg:#07191A; --c-bkk:#9A97FF; --c-ayu:#E9A93A; --c-cnx:#5FCB82; --c-kbi:#52BEE8; --c-lipe:#3CD0CA; --c-flt:#9DB0B2;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px)}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--font-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 96px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+.wrap{max-width:640px;margin:0 auto}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Cabecera */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);display:flex;align-items:center;gap:10px;padding:12px 0 10px}
+.top h1{font:700 21px/1.15 var(--font-display);margin:0;flex:1;min-width:0;text-wrap:balance}
+.top .back{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:none;text-decoration:none}
+.sync{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.btn-edit{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-weight:600;font-size:13.5px;flex:none}
+.btn-edit.on{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.edit-banner{background:var(--accent-soft);color:var(--fg);border-radius:12px;padding:9px 12px;font-size:13px;margin-bottom:14px}
+
+/* Pestañas */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  display:flex;justify-content:center;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabs nav{display:flex;width:100%;max-width:640px}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;text-decoration:none;color:var(--muted);font-size:11.5px;font-weight:600;border-radius:12px}
+.tab svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tab.on{color:var(--accent)}
+.tab.on svg{stroke-width:2.3}
+
+/* Tipografía y piezas */
+h2{font:700 19px/1.2 var(--font-display);margin:26px 0 10px;text-wrap:balance}
+h3{font:700 12px/1.2 var(--font-body);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.muted{color:var(--muted)}
+.ph{color:var(--muted);font-style:italic}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;align-items:center}
+.grow{flex:1;min-width:0}
+.chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:2px 8px;vertical-align:1px;margin-left:4px}
+.chip.extra{background:var(--gold-soft);color:var(--gold)}
+.chip.opt{background:var(--surface2);color:var(--muted)}
+.chip.inc{background:var(--accent-soft);color:var(--accent)}
+.in{width:100%;font:inherit;color:var(--fg);background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-width:0}
+textarea.in{resize:none;display:block;overflow:hidden}
+input[type=date].in{min-height:38px}
+.notes{background:var(--surface);border:1px dashed var(--line);border-radius:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:9px 14px;font-weight:600;font-size:14px;text-decoration:none}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn.small{padding:6px 11px;font-size:13px;border-radius:10px}
+.btn.danger,.del.armed{background:var(--danger-soft);color:var(--danger);border-color:var(--danger)}
+.del{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:10px;padding:4px 10px;font-size:13px;font-weight:600;flex:none}
+.add{margin-top:8px;width:100%;border:1px dashed var(--accent);background:transparent;color:var(--accent);border-radius:12px;padding:9px;font-weight:600;font-size:14px}
+
+/* Inicio */
+.hero{background:var(--accent);color:var(--accent-fg);border-radius:20px;padding:18px 18px 16px}
+.hero .kick{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;opacity:.85}
+.hero .big{font:700 44px/1 var(--font-display);margin:8px 0 4px;font-variant-numeric:tabular-nums}
+.hero .sub{font-size:15px;opacity:.95}
+.hero .in{background:rgba(255,255,255,.18);color:inherit;border-color:rgba(255,255,255,.4);margin-bottom:6px}
+.hero .in::placeholder{color:inherit;opacity:.7}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:360px){.mini{grid-template-columns:1fr}}
+.mini .card{display:block;text-decoration:none}
+.mini .k{font-size:12px;color:var(--muted);font-weight:600}
+.mini .v{font:700 17px/1.2 var(--font-display);margin-top:2px;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:8px}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px}
+
+/* Itinerario */
+.daycard{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px 10px 10px;text-decoration:none}
+.daycard.now{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.dtile{color:var(--tile-fg);flex:none;width:54px;height:58px;border-radius:12px;background:var(--c);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.dtile .dn{font:700 22px/1 var(--font-display);font-variant-numeric:tabular-nums}
+.dtile .dm{font-size:11px;font-weight:700;text-transform:uppercase;margin-top:3px;letter-spacing:.05em}
+.dbody{min-width:0;flex:1}
+.dcity{font-size:12px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.05em}
+.dcity i{width:8px;height:8px;border-radius:50%;flex:none}
+.dcity em{font-style:normal;background:var(--accent);color:var(--accent-fg);border-radius:99px;padding:0 7px;font-size:10.5px;letter-spacing:0}
+.dtitle{font:700 16px/1.25 var(--font-display);margin-top:1px}
+.dtag{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.chev{flex:none;width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Día */
+.dayhead{display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
+.dayhead .city{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dayhead .city i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.dayhead h2{margin:0;font-size:26px}
+.staybar{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:12px 0}
+.staybar .t{font-size:12px;color:var(--muted);font-weight:600}
+.staybar .n{font-weight:700}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:12px}
+.block.tip{background:var(--surface2);border-color:transparent}
+.block ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.it{display:flex;gap:10px;align-items:flex-start}
+.it .main{flex:1;min-width:0;overflow-wrap:anywhere}
+.it .main b{font-weight:700}
+.it .fields{display:flex;flex-direction:column;gap:6px}
+.dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:8px}
+.block.tip .dot{background:var(--muted)}
+details.story{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-top:12px}
+details.story summary{font-weight:700;cursor:pointer}
+details.story p{margin:10px 0 0;color:var(--muted)}
+.pager{display:flex;gap:10px;margin-top:22px}
+.pager .btn{flex:1;min-width:0}
+
+/* Reservas */
+.kv{display:grid;grid-template-columns:96px 1fr;gap:6px 10px;align-items:baseline;font-size:14px}
+.kv dt{color:var(--muted);font-weight:600;font-size:12.5px}
+.kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.flight .route{font:700 18px/1.2 var(--font-display)}
+.flight .times{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0;padding:10px;background:var(--surface2);border-radius:12px}
+.flight .times .k{font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.flight .times .v{font-weight:700;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;font-size:11px;font-weight:700;border-radius:8px;padding:2px 8px;background:var(--accent-soft);color:var(--accent);letter-spacing:.04em;text-transform:uppercase}
+
+/* Maleta */
+.pk{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.pk:first-of-type{border-top:0}
+.pk label{display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer;min-height:34px}
+.pk input[type=checkbox]{width:22px;height:22px;accent-color:var(--accent);flex:none}
+.pk .done{text-decoration:line-through;color:var(--muted)}
+.addrow{display:flex;gap:8px;margin-top:8px}
+.addrow .in{flex:1}
+
+.foot{margin-top:28px;font-size:12.5px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.bar>i{transition:width .3s}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="tabs"><nav id="tabs"></nav></div>
+
+<script>
+/* ============ DATOS DE PARTIDA (de la guía de viaje) ============ */
+const I=(h,t,tag)=>({h:h||"",t:t||"",tag:tag||""});
+const B=(kind,title,items)=>({kind,title,items});
+const DEFAULT={
+ v:1,
+ meta:{title:"Tailandia",dates:"28 nov – 13 dic 2026",sub:"Bangkok · Chiang Mai · Krabi · Koh Lipe"},
+ flights:[
+  {id:"f1",dir:"Ida",route:"Madrid → Bangkok",nums:"Emirates EK144 · EK372",dep:"28 nov · 21:45",arr:"29 nov · 18:40",ref:"",seat:"",bag:"",notes:""},
+  {id:"f2",dir:"Vuelta",route:"Bangkok → Madrid",nums:"Emirates EK371 · EK143",dep:"13 dic · 2:55",arr:"13 dic · 19:55",ref:"",seat:"",bag:"",notes:"Sales de madrugada: es la noche del 12 al 13."}
+ ],
+ stays:[
+  {id:"bkk1",name:"Tinidee Trendy Bangkok",city:"Bangkok",addr:"42 Ram Buttri Aly, Taladyod Phra Nakhon, Bangkok 10200, Tailandia",from:"2026-11-29",to:"2026-11-30",ref:"",phone:"",notes:"El coordinador espera en el hotel para el check-in (hacia las 18:00).",map:true},
+  {id:"tren",name:"Tren dormitorio (o bus nocturno)",city:"Bangkok → Chiang Mai",addr:"",from:"2026-11-30",to:"2026-12-01",ref:"",phone:"",notes:"Unas 12 h en litera. Sin desayuno de hotel incluido.",map:false},
+  {id:"cnx",name:"White Boutique Resort & Spa",city:"Chiang Mai",addr:"17 Ragang Rd, Tambon Hai Ya, Mueang Chiang Mai District, Chiang Mai 50100, Tailandia",from:"2026-12-01",to:"2026-12-04",ref:"",phone:"",notes:"",map:true},
+  {id:"kbi",name:"Blue Tara Hotel Krabi Aonang",city:"Krabi · Ao Nang",addr:"",from:"2026-12-04",to:"2026-12-07",ref:"",phone:"",notes:"",map:true},
+  {id:"lipe",name:"Varin Beach Resort",city:"Koh Lipe",addr:"",from:"2026-12-07",to:"2026-12-10",ref:"",phone:"",notes:"",map:true},
+  {id:"bkk2",name:"Tinidee Trendy Bangkok",city:"Bangkok",addr:"42 Ram Buttri Aly, Taladyod Phra Nakhon, Bangkok 10200, Tailandia",from:"2026-12-10",to:"2026-12-13",ref:"",phone:"",notes:"Check-out: pregunta si puedes dejar la mochila en consigna si el vuelo es tarde.",map:true}
+ ],
+ moves:[
+  {id:"m1",title:"Aeropuerto Suvarnabhumi → hotel",date:"29 nov",time:"",ref:"",notes:"Grab/Bolt con precio cerrado, taxi oficial con taxímetro (planta 1) o Airport Rail Link (~30 min)."},
+  {id:"m2",title:"Tren nocturno Bangkok → Chiang Mai",date:"30 nov",time:"",ref:"",notes:"Tren dormitorio (bus nocturno si no hay plazas). Unas 12 h."},
+  {id:"m3",title:"Vuelo Chiang Mai → Krabi",date:"4 dic",time:"",ref:"",notes:"Líquidos de más de 100 ml en la mochila facturada; baterías externas en la de mano."},
+  {id:"m4",title:"Ao Nang → Koh Lipe",date:"7 dic",time:"",ref:"",notes:"Día de viaje largo, se madruga. Último tramo en long tail desde un pontón flotante."},
+  {id:"m5",title:"Koh Lipe → Bangkok",date:"10 dic",time:"",ref:"",notes:"Barco al continente y vuelo desde Trang o Hat Yai."}
+ ],
+ days:[
+  {iso:"2026-11-28",ck:"flt",city:"En vuelo",title:"Vuelo de ida",tag:"Madrid → Bangkok · EK144 · EK372",stay:"",story:"",notes:"",
+   blocks:[B("plan","El plan",[I("Salida","28 nov a las 21:45. Madrid → Bangkok, Emirates EK144 · EK372."),I("Llegada","29 nov a las 18:40 a Bangkok.")])]},
+  {iso:"2026-11-29",ck:"bkk",city:"Bangkok",title:"La ciudad de los ángeles",tag:"Check-in, cena de bienvenida y Khao San Road",stay:"bkk1",
+   story:"Los tailandeses no la llaman Bangkok, sino Krung Thep, «la ciudad de los ángeles». Es solo el principio de su nombre oficial, que tiene más de 160 letras.\n\nFue elegida capital en 1782 por el rey Rama I, fundador de la dinastía Chakri, que sigue reinando hoy. Hoy es una metrópolis de más de 10 millones de personas.\n\nAl principio abruma: calor húmedo, tráfico, olores y ruido. Pero en pocas horas le pillarás el ritmo.\n\nKhao San Road (barrio de Banglamphu) era una calle de comerciantes de arroz («khao san» significa «arroz descascarillado»). En los años 80 se llenó de pensiones baratas y se convirtió en el punto de encuentro de los mochileros de todo el mundo.",notes:"",
+   blocks:[
+    B("plan","El plan de hoy",[I("Llegada al hotel","El coordinador os espera allí para ayudaros con el check-in. Los vuelos no están incluidos, así que cada uno llega a su hora."),I("Cena de bienvenida","Después del check-in nos reunimos todo el grupo por primera vez alrededor de comida tailandesa: pad thai, khao pad (arroz frito) o tom yum.","inc")]),
+    B("plan","Primera noche: Khao San Road",[I("Los cubos","Cócteles servidos en un cubo de playa para compartir. Baratos y cargados: tómatelo con calma la primera noche."),I("Comida callejera","Pad thai al momento, brochetas, roti de plátano y fruta cortada. Para los valientes, insectos fritos."),I("Probar bichos","Gusanos, escarabajos, grillos o saltamontes fritos. Los grillos son los más fáciles para empezar.","extra"),I("Fotos con escorpiones","Los vendedores cobran por hacerte una foto con sus bandejas de insectos. Pregunta antes de disparar."),I("Masaje de pies","Sillones en plena calle. Después de un vuelo largo, el mejor plan para la primera noche."),I("Soi Rambuttri","La calle paralela, más tranquila, con bares y terrazas bajo los árboles.")]),
+    B("tip","Del aeropuerto al hotel",[I("Grab o Bolt","Te dan el precio cerrado antes de subir. La opción más cómoda con mochila."),I("Taxi oficial","En Suvarnabhumi, planta 1, en las máquinas de turno. Pide siempre taxímetro (meter); el peaje se paga aparte."),I("Airport Rail Link","Tren al centro en unos 30 minutos. Barato, pero incómodo con mochila grande y transbordos."),I("Evita a los captadores","No aceptes transporte de quien se te acerque dentro de la terminal.")]),
+    B("tip","Antes de salir del aeropuerto",[I("SIM o eSIM","Actívala nada más llegar: la necesitarás para el grupo de WhatsApp, Grab y Google Maps."),I("Dinero","Cambia solo lo justo para las primeras horas. En la ciudad el cambio es mejor que en el aeropuerto.")]),
+    B("tip","El primer día",[I("Jet lag","Tailandia va 6 horas por delante de España en invierno (5 en verano). Evita la siesta larga y acuéstate a una hora local razonable."),I("Calor","Bebe mucha agua y no te expongas al sol a mediodía. El cuerpo tarda un par de días en adaptarse."),I("Bienvenida","El encuentro con el coordinador suele ser hacia las 18:00 en el primer hotel. Si llegas antes o después, avísale por el grupo de WhatsApp.")])
+   ]},
+  {iso:"2026-11-30",ck:"ayu",city:"Ayutthaya",title:"La antigua capital de Siam",tag:"Templos en bici o tuk tuk · tren nocturno a Chiang Mai",stay:"tren",
+   story:"A unos 80 km al norte de Bangkok, Ayutthaya fue la capital del reino de Siam durante 417 años, de 1350 a 1767. Se construyó en una isla formada por tres ríos.\n\nEn el siglo XVII era una de las ciudades más grandes del mundo, con alrededor de un millón de habitantes. En 1767 el ejército birmano la sitió, la saqueó y la quemó. Las ruinas son Patrimonio de la Humanidad por la UNESCO desde 1991.",notes:"",
+   blocks:[
+    B("info","Cómo leer las ruinas",[I("Prang","Torre alargada en forma de mazorca, heredada del arte jemer de Angkor."),I("Chedi","Estupa en forma de campana, de estilo cingalés, que guarda reliquias."),I("Budas sin cabeza","Los decapitaron los saqueadores para vender las cabezas o buscar el oro que se escondía dentro.")]),
+    B("plan","Qué veremos",[I("En bici o tuk tuk","Las distancias entre templos son largas y el calor aprieta: ir sobre ruedas es lo mejor."),I("Wat Mahathat","La imagen más famosa de Ayutthaya: una cabeza de Buda de piedra atrapada entre las raíces de una higuera."),I("Wat Phra Si Sanphet","Templo del palacio real, sin monjes. Sus tres grandes chedis guardan las cenizas de tres reyes."),I("Wat Chaiwatthanaram","A orillas del río Chao Phraya, construido en 1630 a imagen de Angkor Wat. El más fotogénico al atardecer."),I("Trajes tradicionales","En varios templos alquilan trajes tailandeses para hacerse fotos.","opt"),I("Por la tarde","Volvemos a Bangkok para coger el tren nocturno a Chiang Mai.")]),
+    B("tip","En Ayutthaya",[I("Cabeza de Buda","Para la foto, agáchate o arrodíllate: tu cabeza nunca debe quedar por encima de la del Buda."),I("Ropa","Hombros y rodillas cubiertos, aunque el templo esté en ruinas."),I("Sol","Muy poca sombra. Gorra, crema solar y agua de sobra."),I("Comida","Prueba el roti sai mai, una crepe fina rellena de hilos de azúcar de colores.")]),
+    B("tip","El tren nocturno",[I("Mochila de noche","Bolsa pequeña con cepillo de dientes, toallitas, cargador, tapones y antifaz."),I("Abrígate","El aire acondicionado suele estar muy fuerte. Sudadera y calcetines."),I("Literas","Las de abajo son más anchas y tienen ventana. Se reparten según disponibilidad."),I("Comida","En el tren venden, pero es más barato comprar antes en un 7-Eleven."),I("Objetos de valor","Duerme con móvil, cartera y pasaporte dentro de la litera, no en el pasillo."),I("Desayuno","Esta noche no hay desayuno de hotel incluido.")])
+   ]},
+  {iso:"2026-12-01",ck:"cnx",city:"Chiang Mai",title:"La rosa del norte",tag:"Doi Suthep y templos de la ciudad vieja",stay:"cnx",
+   story:"Chiang Mai la fundó el rey Mangrai en 1296 como capital del reino de Lanna, «el reino del millón de arrozales». Es la segunda ciudad del país, más tranquila y fresca que Bangkok, rodeada de montañas cubiertas de selva.\n\nEl casco antiguo es un cuadrado de 1,6 km de lado, rodeado por un foso y restos de muralla, con más de 30 templos.",notes:"",
+   blocks:[
+    B("plan","Qué veremos",[I("Doi Suthep","El templo más sagrado del norte, a más de 1.000 m de altitud. Según la leyenda, un elefante blanco con una reliquia de Buda subió a esta montaña, barritó tres veces y murió allí."),I("La escalera de los naga","306 escalones flanqueados por dos serpientes míticas. Arriba, el chedi dorado y una de las mejores vistas de la ciudad. Hay funicular si no quieres subir andando."),I("Templo secreto de la selva (Wat Pha Lat)","Pequeño monasterio escondido en la ladera, con estatuas cubiertas de musgo, un arroyo y cascadas."),I("Wat Chiang Man","El templo más antiguo de la ciudad. Su chedi está rodeado de elefantes de piedra."),I("Wat Phra Singh","Una de las imágenes de Buda más veneradas del norte. Arquitectura Lanna de madera y murales."),I("Wat Chedi Luang","Si hay tiempo. Su gran chedi llegó a medir más de 80 m hasta el terremoto de 1545.","opt"),I("Masaje tailandés","Para terminar el día. Presión y estiramientos, sin aceite, con ropa holgada que te dan allí. Si duele, di «bao bao» (más suave).","extra")]),
+    B("tip","Consejos",[I("Después del tren","Aprovecha el check-in para ducharte y dejar la mochila antes de salir."),I("Templos","Hombros y rodillas cubiertos y descalzo dentro de las salas de oración."),I("Charla con monjes","En Wat Chedi Luang y otros hay monk chats: novicios que charlan en inglés con los visitantes."),I("Mujeres y monjes","No deben tocar a un monje ni darle nada en mano. Las ofrendas, sobre una tela o una mesa."),I("Transporte","Las songthaew (camionetas rojas) son taxi compartido: acuerda el precio antes de subir. Grab también funciona."),I("Qué comer","Khao soi (sopa de curry con coco y fideos de huevo), salchichas sai ua y nam prik noom (salsa de chile verde con verduras)."),I("Café","Muchísimas cafeterías de especialidad, con café de las montañas de alrededor.")])
+   ]},
+  {iso:"2026-12-02",ck:"cnx",city:"Chiang Mai",title:"Elefantes, trekking y rafting",tag:"Un día en la selva",stay:"cnx",
+   story:"El elefante es el animal nacional de Tailandia. Cuando en 1989 se prohibió la tala comercial, miles de elefantes y sus mahouts (cuidadores) se quedaron sin trabajo. Hoy los centros de cuidado responsables ofrecen una alternativa: el visitante paga por cuidarlos, no por montarlos.",notes:"",
+   blocks:[
+    B("plan","El plan del día",[I("Trekking por la selva","Caminata entre bambú, árboles gigantes y arroyos. El guía enseña plantas que usan para comer o curar."),I("Centro de cuidado de elefantes","Jugaremos con ellos y les daremos caña de azúcar: un adulto come más de 150 kg al día."),I("Baño de barro y de río","Acompañamos a los elefantes a la charca y luego los ayudamos a limpiarse en el agua."),I("Comida con vistas","En plena naturaleza."),I("Rafting","Bajamos el río en barcas tradicionales. Según la época, el agua baja tranquila o con más fuerza.")]),
+    B("plan","Por la noche",[I("Combate de Muay Thai","Hay veladas casi todas las noches en Chiang Mai.","opt"),I("Chiang Mai Night Bazaar","Para cenar en el patio de comidas y probar la cocina del norte.")]),
+    B("tip","Qué llevar",[I("Bañador puesto","Y una muda completa en una bolsa. Para estar con los elefantes te darán ropa tradicional, pero acabarás con barro."),I("Calzado","Deportivas viejas o sandalias de trekking que se puedan mojar. Las chanclas sin sujeción no sirven."),I("Bolsa estanca","Para el móvil y la cartera, sobre todo en el rafting."),I("Toalla, repelente y crema solar","Toalla de microfibra."),I("Efectivo","Para propinas o bebidas: en la selva no hay cajeros.")]),
+    B("tip","Con los elefantes",[I("","Sigue siempre las indicaciones del mahout. Son animales tranquilos, pero muy grandes."),I("","No te pongas detrás de un elefante ni le toques la cola o los ojos.")])
+   ]},
+  {iso:"2026-12-03",ck:"cnx",city:"Chiang Mai",title:"Doi Inthanon, el techo de Tailandia",tag:"2.565 m · cascadas, pagodas y aldeas",stay:"cnx",
+   story:"Doi Inthanon es la montaña más alta del país, a unos 100 km de Chiang Mai. Todo su entorno es parque nacional de bosque húmedo, con cascadas, arrozales en terrazas y aldeas de las etnias karen y hmong. En la cima, entre noviembre y febrero, de madrugada la temperatura puede bajar de 5 °C.",notes:"",
+   blocks:[
+    B("plan","Qué veremos",[I("Pagodas del rey y la reina","Dos chedis gemelos a unos 2.200 m. El del rey Bhumibol (cobrizo, 1987) y el de la reina Sirikit (tonos lila, 1992), con jardines de montaña. En días claros se ven cordilleras hasta Myanmar."),I("Cascada de Wachirathan","Un salto de unos 80 m. Si te acercas, acabarás empapado."),I("Aldeas y plantaciones","En las aldeas karen se cultiva café y arroz en terrazas, y las mujeres tejen en telares de cintura."),I("Por la tarde","Volvemos a Chiang Mai para descansar: mañana empieza la parte de playas.")]),
+    B("tip","Consejos",[I("Abrígate","En la cima hace frío y puede haber niebla. Sudadera y pantalón largo."),I("Carretera","Muchas curvas. Si te mareas, toma algo antes de salir."),I("Calzado","Con buen agarre; las zonas de las cascadas resbalan."),I("Café de montaña","Prueba el de las cooperativas karen: el dinero va directo a las familias."),I("Prepara la mochila","Mañana volamos a Krabi. Última noche en el norte: aprovecha para comprar artesanía (seda, plata, cerámica celadón).")])
+   ]},
+  {iso:"2026-12-04",ck:"kbi",city:"Krabi · Ao Nang",title:"Bienvenidos al paraíso",tag:"Vuelo a Krabi y atardecer en Ao Nang",stay:"kbi",
+   story:"Hoy volamos de Chiang Mai a Krabi y cambiamos los templos y la montaña por el mar de Andamán. La provincia tiene más de 150 islas y enormes paredes de roca caliza que caen sobre playas, manglares y selva.",notes:"",
+   blocks:[
+    B("plan","Ao Nang",[I("Vuelo","Chiang Mai → Krabi."),I("Atardecer en la playa","El sol se esconde detrás de las islas y el paseo marítimo se llena de gente."),I("Calle principal","Tiendas de recuerdos, ropa, sastrerías y restaurantes de todo tipo."),I("Cena y ambiente","Cenamos y tomamos algo en alguno de sus locales, algunos con música en directo."),I("Los long tail","Barcas de madera con motor de coche en la popa. Las cintas de colores en la proa son ofrendas de buena suerte.")]),
+    B("tip","Consejos",[I("Vuelo interno","Líquidos de más de 100 ml en la mochila facturada y baterías externas siempre en la de mano."),I("Qué comer","Som tam (ensalada de papaya verde), pescado a la brasa con sal y tom yum kung (sopa picante de gambas)."),I("Calor","Más humedad que en el norte. Agua y crema solar aunque esté nublado."),I("Lavandería","Buen momento para lavar ropa. Lavanderías por kilo en casi todas las calles, lista en un día."),I("Motos","No alquiles moto ni scooter sin carné internacional válido para moto. Si tienes un accidente, el seguro no te cubre.")])
+   ]},
+  {iso:"2026-12-05",ck:"kbi",city:"Krabi",title:"Tour por las islas Phi Phi",tag:"Snorkel, Maya Bay y atardecer en el Andamán",stay:"kbi",
+   story:"El archipiélago de Phi Phi tiene seis islas y forma parte de un parque nacional. Solo Phi Phi Don está habitada; la mayoría de paradas están en Phi Phi Leh, deshabitada y toda acantilados. Pasamos el día en barco, con paradas para bañarnos y hacer snorkel.",notes:"",
+   blocks:[
+    B("plan","Qué veremos",[I("Viking Cave","Cueva donde se recogen nidos de salangana (saliva de golondrina, manjar caro en la cocina china). No se entra: se ve desde el barco."),I("Loh Samah Bay","Bahía entre paredes de roca, con agua muy clara para snorkel."),I("Laguna de Pileh","Agua verde esmeralda casi cerrada por acantilados. Uno de los mejores baños del viaje."),I("Monkey Beach","Playa pequeña donde viven monos macacos."),I("Maya Bay","Donde se rodó «La playa» (2000). Cerrada de 2018 a 2022 por el daño al coral."),I("Atardecer","Volvemos a Krabi en ferry. Busca sitio en cubierta antes de la puesta de sol.")]),
+    B("info","Maya Bay hoy",[I("","Los barcos no llegan a la playa: se desembarca en un pontón por detrás y se llega andando por una pasarela."),I("","No se permite nadar. Visitas por turnos con aforo limitado."),I("","Han vuelto los tiburones de puntas negras; con suerte, los verás en la orilla."),I("","Cierra cada año del 1 de agosto al 30 de septiembre.")]),
+    B("tip","Consejos",[I("Calzado de agua","Escarpines o sandalias para los fondos de roca y coral."),I("Corales","No los toques ni te pongas de pie sobre ellos."),I("Monkey Beach","No des comida a los monos ni lleves bolsas o gafas a la vista. Pueden morder."),I("Crema solar","Mucha, y repetida tras cada baño."),I("Bolsa estanca","Para móvil y dinero: en los longtail se moja todo."),I("Muda seca","Y una sudadera fina para el ferry de vuelta."),I("Tasa de las Phi Phi","Incluida en el fondo común; el coordinador se encarga."),I("Chaleco","Si no nadas con soltura, pide chaleco para el snorkel.")])
+   ]},
+  {iso:"2026-12-06",ck:"kbi",city:"Krabi",title:"Railay Beach",tag:"Solo se llega en barco · cuevas, mirador y kayak",stay:"kbi",
+   story:"Railay está en tierra firme, pero sus acantilados la dejan aislada: solo se llega en barco (unos 15 min en longtail desde Ao Nang). Tiene cuatro playas: Railay West (arena blanca y atardeceres), Railay East (manglares, no apta para baño), Phra Nang (una de las más bonitas del país) y Tonsai (la de los escaladores).",notes:"",
+   blocks:[
+    B("plan","Qué veremos",[I("Diamond Cave","Cueva con estalactitas que brillan con la luz. Se recorre por una pasarela de madera."),I("Cueva de la princesa","Santuario en Phra Nang dedicado al espíritu de una princesa ahogada. Los pescadores dejan ofrendas talladas en madera. Es un lugar de culto: respétalo."),I("Mirador y laguna Blue Emerald","Sendero muy empinado, con cuerdas y raíces, hasta un mirador sobre las dos bahías. Desde allí se puede bajar a una laguna escondida."),I("Kayak","Acantilados, playas como Phra Nang y cuevas a las que solo se llega desde el agua. Si participa todo el grupo, se paga con el fondo común.","extra"),I("Chill en Railay","Si prefieres no subir al mirador, quédate en la playa.","extra"),I("Última noche en Krabi","De vuelta en Ao Nang, vida nocturna por última vez.")]),
+    B("tip","Consejos",[I("El mirador es exigente","Tramos casi verticales con barro y cuerdas. Calzado con agarre (no chanclas), manos libres y ropa que no te importe manchar."),I("La laguna","Bajar es aún más difícil que subir. Si no te ves seguro, quédate arriba."),I("Agua y comida","En el sendero no hay dónde comprar."),I("Desembarco","El barco te deja en el agua, a la altura de las rodillas. Bolsa estanca."),I("Monos","También hay. No les des comida y guarda las bolsas."),I("Mañana se madruga","El viaje a Koh Lipe es largo. Deja la mochila hecha antes de salir por la noche.")])
+   ]},
+  {iso:"2026-12-07",ck:"lipe",city:"Koh Lipe",title:"Las Maldivas de Tailandia",tag:"Día de viaje largo hasta la isla",stay:"lipe",
+   story:"Koh Lipe es una isla diminuta del archipiélago de Adang, en la provincia de Satun, casi en la frontera con Malasia. Sus primeros habitantes fueron los Urak Lawoi («gente del mar»), que aún conservan su lengua y cultura. La rodea el Parque Nacional Marino de Tarutao, el primero de Tailandia.",notes:"",
+   blocks:[
+    B("info","Cómo es la isla",[I("No hay coches","Todo a pie o en barca. Se cruza andando en unos 20 minutos."),I("Tres playas principales","Pattaya Beach al sur, Sunrise Beach al este y Sunset Beach al oeste."),I("Walking Street","Calle peatonal de Pattaya Beach a Sunrise Beach. Centro de la vida de Lipe.")]),
+    B("plan","Qué haremos",[I("Pattaya Beach","Arena blanca y agua turquesa. Paddle surf o descanso. No la confundas con la ciudad de Pattaya."),I("Walking Street","La calle más animada, llena de restaurantes y puestos. Destacan pescado y marisco."),I("Atardecer en Sunset Beach","El mejor sitio para ver la puesta de sol entre las islas del parque.")]),
+    B("tip","Para llegar a Koh Lipe",[I("Un día de viaje","Lleva agua, algo de picar, sudadera para el aire acondicionado y algo para el mareo."),I("Llegada en barca","No hay muelle: pontón flotante y luego long tail hasta la playa. Móvil y papeles en bolsa estanca."),I("Tasa del parque nacional","Se paga en efectivo al llegar. Guarda el ticket: sirve también para las islas de alrededor."),I("Efectivo","Los cajeros de Walking Street cobran comisión alta y pueden quedarse sin dinero. Llega con baht suficientes para los tres días."),I("Agua","El agua dulce es escasa. Bebe agua embotellada y no la malgastes en la ducha.")])
+   ]},
+  {iso:"2026-12-08",ck:"lipe",city:"Koh Lipe",title:"Buceo en Koh Lipe",tag:"Un mar lleno de vida",stay:"lipe",
+   story:"Las aguas de Koh Lipe y del Parque Nacional Marino de Tarutao son de las más ricas de Tailandia en corales y vida marina: peces tropicales, rayas, anguilas y tiburones leopardo, un tiburón tranquilo que descansa en el fondo y no es peligroso.",notes:"",
+   blocks:[
+    B("plan","Qué hacer",[I("Bautismo de buceo","Si nunca has buceado. Un instructor te enseña lo básico y bajas con él al arrecife. No necesitas titulación.","extra"),I("Para buceadores titulados","Inmersiones en los puntos más conocidos del parque. Lleva tu certificado y tu libro de inmersiones.","extra"),I("Snorkel","Con gafas y tubo verás muchísima vida a pocos metros de la orilla."),I("Tarde libre","Playa, batido de fruta en Sunrise Beach o masaje en la arena.")]),
+    B("tip","Consejos para bucear",[I("Por cuenta propia","El buceo no está incluido. Habla con el coordinador para organizarlo con el grupo."),I("Salud","Si tienes problemas de oídos, asma o del corazón, o estás resfriado, consulta antes con tu médico y avisa al instructor."),I("Vuelos","No se debe volar en las horas siguientes a bucear. El día 12 hay avión: el coordinador dirá hasta cuándo se puede bucear."),I("Corales","No los toques ni te apoyes en ellos."),I("Crema solar","Respetuosa con el coral, y camiseta de licra para el snorkel.")])
+   ]},
+  {iso:"2026-12-09",ck:"lipe",city:"Koh Lipe",title:"Relax en el paraíso",tag:"Último día en las islas",stay:"lipe",
+   story:"El Parque Nacional Marino de Tarutao reúne 51 islas e islotes en dos grupos: Tarutao y Adang-Rawi, donde estamos. Se declaró parque en 1974. En los años 30 y 40, la isla de Tarutao fue colonia penitenciaria.",notes:"",
+   blocks:[
+    B("plan","Ideas para hoy",[I("Amanecer en Sunrise Beach","Costa este de Lipe: el mejor sitio del archipiélago para ver salir el sol."),I("Koh Adang","Isla vecina casi deshabitada, a pocos minutos en long tail. Sendero a miradores sobre Lipe; el más conocido es Chado Cliff.","extra"),I("Snorkel por las islas","Excursiones en barca con paradas en varios arrecifes alrededor de Adang y Rawi.","extra"),I("Playa y relax","Bajo un cocotero, tras días llenos de aventuras."),I("Una última inmersión","Si ayer te enganchó el buceo.","extra")]),
+    B("tip","Consejos",[I("Por cuenta propia","El long tail a Adang y el equipo de snorkel o buceo no están incluidos. Acuerda el precio de la barca antes de subir."),I("Chado Cliff","Corta pero empinada, con cuerdas. Calzado con agarre, agua, y mejor a primera hora."),I("Ticket del parque","Lleva encima el que pagaste al llegar a Lipe."),I("Marea baja","Al hacer snorkel, no toques el arrecife cuando el agua está muy baja."),I("Mañana se madruga","Volvemos a Bangkok. Deja la mochila casi lista esta noche.")])
+   ]},
+  {iso:"2026-12-10",ck:"bkk",city:"Bangkok",title:"Regreso a Bangkok",tag:"Barco, vuelo y mercadillos nocturnos",stay:"bkk2",
+   story:"Dejamos las islas del sur: primero en barco al continente y después el vuelo a Bangkok, que sale de Trang o de Hat Yai. Dejamos las cosas en el hotel y salimos a descubrir la ciudad; quien quiera, puede descansar. Es el momento de las últimas compras.",notes:"",
+   blocks:[
+    B("plan","Ideas para la tarde",[I("Canales de Bangkok","«La Venecia del Este»: en barca tradicional por los khlong, al otro lado del río.","extra"),I("Paseo en tuk tuk","Recorrido por los lugares más emblemáticos de la capital."),I("Barco por el Chao Phraya","El ferry público es baratísimo y pasa junto a Wat Arun y el Gran Palacio.")]),
+    B("plan","Mercadillos nocturnos",[I("Mercados nocturnos","Ropa, artesanía, decoración y, sobre todo, comida. Ideales para cenar barato."),I("Chinatown (Yaowarat)","De noche, neones y puestos de comida callejera. Algunos con estrella Michelin y colas de una hora."),I("Rooftops","Algunos de los bares en azotea más espectaculares del mundo.","opt"),I("Khao San Road","Para quien quiera cerrar el viaje donde empezó.","opt")]),
+    B("info","Para regatear",[I("","Pregunta el precio y ofrece en torno a la mitad. Sube poco a poco."),I("","Sonríe siempre: perder los nervios es perder la negociación."),I("","Si no os ponéis de acuerdo, despídete con amabilidad. A menudo te llamarán de vuelta.")]),
+    B("tip","Consejos",[I("Rooftops","Casi todos tienen código de vestimenta: nada de chanclas, pantalón corto ni camiseta de tirantes."),I("Tuk tuks y taxis","Si te ofrecen un precio muy bajo a cambio de «parar en una tienda», di que no. Es un timo clásico."),I("Compras","Los centros comerciales tienen precios fijos. Los mercados se regatean."),I("Imágenes de Buda","No se pueden sacar del país sin permiso, aunque las compres en una tienda."),I("Peso de la mochila","Si has comprado mucho, revisa el peso permitido de tu vuelo de vuelta.")])
+   ]},
+  {iso:"2026-12-11",ck:"bkk",city:"Bangkok",title:"Mercados de Bangkok",tag:"Mercado flotante, mercado del tren y despedida",stay:"bkk2",
+   story:"Último día completo en Tailandia, dedicado a los mercados más curiosos de los alrededores. Damnoen Saduak está a unos 100 km de la capital; su canal lo mandó excavar el rey Rama IV entre 1866 y 1868 y tiene 32 km.\n\nEl mercado del tren de Mae Klong (Talat Rom Hup, «el mercado de los paraguas que se cierran») está montado a ambos lados y encima de la vía. Cuando suena la sirena, los vendedores recogen los toldos y el tren pasa rozando los puestos.",notes:"",
+   blocks:[
+    B("plan","Mercado flotante de Damnoen Saduak",[I("En barca","Recorremos los canales entre vendedoras con sombrero de paja que cocinan en sus barcas."),I("Qué probar","Mango sticky rice, coco helado, sopa de fideos hecha en la barca, mangostán y rambután."),I("Últimos regalos","Especias, sombreros, jabones o tallas de madera. Regatea.")]),
+    B("plan","Mercado del tren de Mae Klong",[I("Horarios","El tren pasa unas 7 veces al día. Los horarios cambian: el coordinador los confirma allí."),I("Dónde ponerte","Pégate a un puesto o pared y deja libre la vía. Nunca te quedes sobre los raíles."),I("Móvil preparado","El tren pasa muy despacio, pero todo ocurre muy rápido.")]),
+    B("tip","Despedida",[I("Fiesta","Por la noche brindamos con el grupo para despedir la aventura."),I("Comparte las fotos","Crea un álbum compartido con el grupo antes de que cada uno se vaya."),I("Tu vuelo","Comprueba hora y aeropuerto de salida (Suvarnabhumi o Don Mueang) y organiza el traslado con tiempo."),I("Check-out","Pregunta la hora de salida y si puedes dejar la mochila en consigna si tu vuelo es tarde."),I("Baht","Guarda solo lo necesario para el taxi y el aeropuerto. Gasta o cambia el resto.")])
+   ]},
+  {iso:"2026-12-12",ck:"bkk",city:"Bangkok",title:"Último día y vuelo de vuelta",tag:"Bangkok → Madrid · EK371 · EK143",stay:"bkk2",
+   story:"",notes:"",
+   blocks:[B("plan","El plan",[I("Vuelo de vuelta","Sale el 13 dic a las 2:55 (madrugada), llega a Madrid el 13 dic a las 19:55. Emirates EK371 · EK143."),I("Traslado al aeropuerto","Organízalo con tiempo (Suvarnabhumi o Don Mueang).")])]}
+ ],
+ pack:[
+  {g:"Documentos y dinero",items:[["Pasaporte",0],["Seguro de viaje",0],["Efectivo en baht (islas y selva sin cajeros)",0],["Carné internacional (solo si alquilas moto)",0],["Certificado y libro de inmersiones (si tienes título de buceo)",0]]},
+  {g:"Tecnología",items:[["eSIM o SIM tailandesa",0],["Powerbank (en la mochila de mano)",0],["Cargador y adaptador",0],["Apps: Grab, Bolt, Google Maps y WhatsApp del grupo",0]]},
+  {g:"Ropa",items:[["Ropa que cubra hombros y rodillas (templos)",0],["Sudadera (tren, Doi Inthanon, ferry)",0],["Pantalón largo y calcetines",0],["Gorra",0],["Muda completa de repuesto",0]]},
+  {g:"Playa e islas",items:[["Bolsa estanca",0],["Escarpines o sandalias de agua",0],["Camiseta de licra",0],["Crema solar respetuosa con el coral",0],["Toalla de microfibra",0],["Gafas y tubo de snorkel",0]]},
+  {g:"Selva y trekking",items:[["Deportivas viejas o sandalias de trekking",0],["Repelente de mosquitos",0],["Bañador puesto para los elefantes",0]]},
+  {g:"Tren nocturno",items:[["Bolsa pequeña: cepillo, toallitas, cargador, tapones y antifaz",0],["Comida y bebida del 7-Eleven",0]]},
+  {g:"Salud",items:[["Algo para el mareo (trayecto a Koh Lipe)",0],["Líquidos de más de 100 ml en la mochila facturada",0]]}
+ ].map(g=>({g:g.g,items:g.items.map(x=>({t:x[0],d:!!x[1]}))})),
+ util:{
+  facts:[I("Huso horario","Tailandia va 6 horas por delante de España en invierno."),I("Moneda","Baht tailandés (THB). Cambia poco en el aeropuerto; en las islas llega con efectivo."),I("Transporte","Grab y Bolt con precio cerrado. Songthaew y tuk tuk: acuerda el precio antes de subir."),I("Agua","Bebe agua embotellada.")],
+  contacts:[I("Policía turística","1155"),I("Emergencias (policía)","191"),I("Ambulancia","1669"),I("Coordinador del grupo",""),I("Seguro de viaje",""),I("Embajada de España",""),I("Contacto en España","")],
+  etiquette:[I("Templos","Hombros y rodillas cubiertos. Descalzo dentro de las salas de oración."),I("Budas","Tu cabeza nunca por encima de la del Buda. No saques imágenes de Buda del país sin permiso."),I("Monjes","Las mujeres no deben tocar a un monje ni darle nada en mano."),I("Regatear","Ofrece en torno a la mitad y sube poco a poco. Sonríe siempre."),I("Timos","Un precio muy bajo a cambio de «parar en una tienda» es un timo clásico. No aceptes transporte de captadores en el aeropuerto."),I("Motos","No alquiles sin carné internacional válido para moto: el seguro no te cubre.")],
+  notes:""
+ }
+};
+
+/* ============ ESTADO Y GUARDADO ============ */
+const KEY="tailandia-guia-v1";
+let S=clone(DEFAULT), stamp=0, editing=false, armed="", resetArmed=false, dbDoc=null, dbReady=false;
+function clone(o){return JSON.parse(JSON.stringify(o))}
+try{const raw=localStorage.getItem(KEY);if(raw){const o=JSON.parse(raw);if(o&&o.data&&o.data.days){S=o.data;stamp=o.t||0}}}catch(e){}
+
+let saveTimer=null, writing=false, dirty=false;
+function setStatus(t){const el=document.getElementById("sync");if(el)el.textContent=t}
+function statusText(){return dbDoc?"Guardado":"Guardado en este móvil"}
+function touch(){
+  stamp=Date.now();
+  try{localStorage.setItem(KEY,JSON.stringify({t:stamp,data:S}))}catch(e){}
+  setStatus("Guardando…");dirty=true;
+  clearTimeout(saveTimer);saveTimer=setTimeout(flush,900);
+}
+async function flush(){
+  if(!dbDoc){setStatus(statusText());dirty=false;return}
+  if(writing){saveTimer=setTimeout(flush,600);return}
+  writing=true;dirty=false;
+  try{await dbDoc.set({t:stamp,json:JSON.stringify(S)});setStatus("Guardado")}
+  catch(e){setStatus("Guardado en este móvil")}
+  writing=false;
+  if(dirty){saveTimer=setTimeout(flush,300)}
+}
+(async function initDb(){
+  try{
+    if(!window.claude||!claude.use)return;
+    const db=await claude.use("db");
+    if(!db)return;
+    const ref=db.doc("trip/state");
+    const snap=await ref.get();
+    dbDoc=ref;
+    if(snap.exists){
+      const d=snap.data();
+      if(d&&d.json&&(d.t||0)>stamp){
+        try{S=JSON.parse(d.json);stamp=d.t;try{localStorage.setItem(KEY,JSON.stringify({t:stamp,data:S}))}catch(e){}
+          if(!isTyping())render()}catch(e){}
+      }else if(stamp>(d&&d.t||0)){flush()}
+    }else if(stamp>0){flush()}
+    setStatus(statusText());
+  }catch(e){}
+})();
+function isTyping(){const a=document.activeElement;return a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA")}
+
+/* ============ UTILIDADES ============ */
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nl=s=>esc(s).replace(/\n/g,"<br>");
+function get(path){return path.split(".").reduce((o,k)=>o==null?o:o[k],S)}
+function setp(path,v){const ks=path.split(".");const last=ks.pop();const o=ks.reduce((o,k)=>o[k],S);o[last]=v}
+const fmt=(iso,o)=>{if(!iso)return"";try{return new Intl.DateTimeFormat("es-ES",Object.assign({timeZone:"UTC"},o)).format(new Date(iso+"T12:00:00Z"))}catch(e){return iso}};
+const nights=(a,b)=>Math.max(0,Math.round((new Date(b+"T12:00:00Z")-new Date(a+"T12:00:00Z"))/864e5));
+function todayIso(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function todayIdx(){const t=todayIso();return S.days.findIndex(d=>d.iso===t)}
+const mapsUrl=s=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(s.addr||(s.name+" "+s.city));
+const IC={
+ inicio:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ itinerario:'<path d="M4 6h16M4 12h16M4 18h10"/>',
+ reservas:'<path d="M3 18V6M3 14h18v4M21 14v-3a3 3 0 0 0-3-3h-7v6"/>',
+ maleta:'<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 12.5l3 3 5-6"/>',
+ util:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
+ pencil:'<path d="M4 20l4-1 11-11-3-3L5 16z"/>',
+ chev:'<path d="M9 6l6 6-6 6"/>',
+ back:'<path d="M15 6l-6 6 6 6"/>',
+ pin:'<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>'
+};
+const svg=(n,c)=>`<svg class="${c||""}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+const TABS=[["inicio","Inicio"],["itinerario","Itinerario"],["reservas","Reservas"],["maleta","Maleta"],["util","Útil"]];
+
+/* Campos: texto en lectura, input en edición */
+function fld(path,o){o=o||{};const v=get(path)||"";
+  if(!editing){
+    if(!v)return o.empty?`<span class="ph" data-act="edit">${esc(o.empty)}</span>`:"";
+    return o.multi?nl(v):esc(v)}
+  const ph=esc(o.ph||"");
+  return o.multi?`<textarea class="in" rows="2" data-p="${path}" placeholder="${ph}">${esc(v)}</textarea>`
+                :`<input class="in" data-p="${path}" value="${esc(v)}" placeholder="${ph}" ${o.type?`type="${o.type}"`:""}>`}
+function sel(path,opts){const v=get(path)||"";return `<select class="in" data-p="${path}">${opts.map(o=>`<option value="${esc(o[0])}" ${o[0]===v?"selected":""}>${esc(o[1])}</option>`).join("")}</select>`}
+function delBtn(path,i){const k=path+"#"+i;const a=armed===k;return `<button class="del ${a?"armed":""}" data-act="del" data-p="${path}" data-i="${i}" aria-label="Eliminar">${a?"¿Eliminar?":"Quitar"}</button>`}
+function tagChip(t){return t==="extra"?'<span class="chip extra">Extra</span>':t==="opt"?'<span class="chip opt">Opcional</span>':t==="inc"?'<span class="chip inc">Incluido</span>':""}
+const TAGS=[["","Sin etiqueta"],["extra","Extra (a tu cargo)"],["opt","Opcional"],["inc","Incluido"]];
+
+/* ============ VISTAS ============ */
+function itemsList(path,kindTip){
+  const items=get(path)||[];
+  const lis=items.map((it,i)=>{const p=`${path}.${i}`;
+    if(editing)return `<li class="it"><div class="main fields"><input class="in" data-p="${p}.h" value="${esc(it.h)}" placeholder="Título (opcional)"><textarea class="in" rows="2" data-p="${p}.t" placeholder="Texto">${esc(it.t)}</textarea>${sel(p+".tag",TAGS)}</div>${delBtn(path,i)}</li>`;
+    return `<li class="it"><span class="dot"></span><div class="main">${it.h?`<b>${esc(it.h)}</b> `:""}${nl(it.t)}${tagChip(it.tag)}</div></li>`}).join("");
+  return `<ul>${lis}</ul>${editing?`<button class="add" data-act="add" data-k="item" data-p="${path}">+ Añadir línea</button>`:""}`}
+
+function viewInicio(){
+  const now=new Date(),start=new Date("2026-11-28T21:45:00+01:00"),end=new Date("2026-12-13T19:55:00+01:00");
+  let kick,big,sub;const ti=todayIdx();
+  if(now<start){const ms=start-now,d=Math.floor(ms/864e5),h=Math.floor((ms%864e5)/36e5);
+    kick="Faltan";big=d>=1?`${d} ${d===1?"día":"días"}`:`${h} h`;sub=`Salida de Madrid el 28 nov a las 21:45`}
+  else if(now<=end&&ti>=0){kick="Hoy";big=`Día ${ti}`;sub=S.days[ti].city+" · "+S.days[ti].title}
+  else if(now<=end){kick="De camino";big="¡Buen viaje!";sub="Vuelo de vuelta el 13 dic a las 2:55"}
+  else{kick="Viaje terminado";big="Bienvenido a casa";sub=S.meta.title}
+  const hero=`<section class="hero"><div class="kick">${kick}</div><div class="big">${big}</div><div class="sub">${esc(sub)}</div>
+   <div style="margin-top:14px">${editing?`<input class="in" data-p="meta.title" value="${esc(S.meta.title)}" placeholder="Título"><input class="in" data-p="meta.dates" value="${esc(S.meta.dates)}" placeholder="Fechas"><input class="in" data-p="meta.sub" value="${esc(S.meta.sub)}" placeholder="Ruta">`:`<div style="font-weight:700">${esc(S.meta.title)} · ${esc(S.meta.dates)}</div><div style="opacity:.9;font-size:13.5px">${esc(S.meta.sub)}</div>`}</div></section>`;
+  let di=ti>=0?ti:(now<start?0:-1);
+  const dayLabel=ti>=0?"Hoy":"Primer día";
+  const dayBlock=di>=0?`<h2>${dayLabel}</h2>${dayCard(di)}`:"";
+  const f1=S.flights[0],f2=S.flights[1];
+  const flights=`<h2>Vuelos</h2><div class="mini">${[f1,f2].filter(Boolean).map((f,i)=>`<a class="card" href="#reservas"><div class="k">${esc(f.dir)}</div><div class="v">${esc(f.dep)}</div><div class="muted" style="font-size:13px">${esc(f.route)}</div></a>`).join("")}</div>`;
+  const t=todayIso();
+  let st=S.stays.find(s=>s.from<=t&&t<s.to),stl="Esta noche";
+  if(!st){st=S.stays.find(s=>s.from>t);stl="Próximo alojamiento"}
+  const stay=st?`<h2>${stl}</h2><div class="card stack"><div><div class="n" style="font-weight:700;font-size:17px">${esc(st.name)}</div><div class="muted" style="font-size:13.5px">${esc(st.city)} · ${fmt(st.from,{day:"numeric",month:"short"})} → ${fmt(st.to,{day:"numeric",month:"short"})}</div></div>${st.map?`<a class="btn small" href="${mapsUrl(st)}" target="_blank" rel="noopener">${svg("pin","chev")} Abrir en Google Maps</a>`:""}</div>`:"";
+  const all=S.pack.reduce((n,g)=>n+g.items.length,0),dn=S.pack.reduce((n,g)=>n+g.items.filter(i=>i.d).length,0);
+  const pack=`<h2>Maleta</h2><a class="card" href="#maleta" style="display:block;text-decoration:none"><div class="row"><div class="grow"><b>${dn} de ${all} cosas listas</b></div>${svg("chev","chev")}</div><div class="bar"><i style="width:${all?Math.round(dn/all*100):0}%"></i></div></a>`;
+  return hero+dayBlock+flights+stay+pack;
+}
+
+function dayCard(i){const d=S.days[i],t=todayIdx();
+  return `<a class="daycard ${t===i?"now":""}" href="#dia-${i}"><div class="dtile" style="--c:var(--c-${esc(d.ck)})"><span class="dn">${fmt(d.iso,{day:"numeric"})}</span><span class="dm">${fmt(d.iso,{month:"short"}).replace(".","")}</span></div><div class="dbody"><div class="dcity"><i style="background:var(--c-${esc(d.ck)})"></i>Día ${i} · ${esc(d.city)} ${t===i?"<em>Hoy</em>":""}</div><div class="dtitle">${esc(d.title)}</div><div class="dtag">${esc(d.tag)}</div></div>${svg("chev","chev")}</a>`}
+
+function viewItinerario(){
+  return `<div class="stack">${S.days.map((d,i)=>dayCard(i)).join("")}</div>${editing?`<button class="add" data-act="add" data-k="day" data-p="days">+ Añadir día</button>`:""}`}
+
+const CKS=[["bkk","Bangkok"],["ayu","Ayutthaya"],["cnx","Chiang Mai"],["kbi","Krabi"],["lipe","Koh Lipe"],["flt","Viaje"]];
+function viewDia(i){
+  const d=S.days[i];if(!d)return `<p class="muted">Este día ya no existe.</p><a class="btn" href="#itinerario">Volver</a>`;
+  const p=`days.${i}`;
+  const stay=S.stays.find(s=>s.id===d.stay);
+  let head;
+  if(editing){head=`<div class="stack"><div class="row"><input class="in" type="date" data-p="${p}.iso" value="${esc(d.iso)}">${sel(p+".ck",CKS)}</div><input class="in" data-p="${p}.city" value="${esc(d.city)}" placeholder="Ciudad"><input class="in" data-p="${p}.title" value="${esc(d.title)}" placeholder="Título"><input class="in" data-p="${p}.tag" value="${esc(d.tag)}" placeholder="Resumen corto"></div>`}
+  else head=`<div class="dayhead" style="--c:var(--c-${esc(d.ck)})"><div class="city"><i></i>Día ${i} · ${fmt(d.iso,{weekday:"long",day:"numeric",month:"long"})}</div><h2>${esc(d.title)}</h2><div class="muted">${esc(d.city)}${d.tag?" · "+esc(d.tag):""}</div></div>`;
+  const stayBar=editing?`<div class="staybar"><div class="grow"><div class="t">Alojamiento esa noche</div>${sel(p+".stay",[["","Ninguno"]].concat(S.stays.map(s=>[s.id,s.name+" ("+fmt(s.from,{day:"numeric",month:"short"})+")"])))}</div></div>`
+    :stay?`<div class="staybar"><div class="grow"><div class="t">Dormimos en</div><div class="n">${esc(stay.name)}</div></div>${stay.map?`<a class="btn small" href="${mapsUrl(stay)}" target="_blank" rel="noopener">${svg("pin","chev")} Mapa</a>`:`<a class="btn small" href="#reservas">Ver</a>`}</div>`:"";
+  const blocks=d.blocks.map((b,bi)=>{const bp=`${p}.blocks.${bi}`;
+    return `<section class="block ${b.kind==="tip"?"tip":""}">${editing?`<div class="row" style="margin-bottom:10px"><input class="in" data-p="${bp}.title" value="${esc(b.title)}" placeholder="Título del bloque">${sel(bp+".kind",[["plan","Plan"],["info","Información"],["tip","Consejos"]])}${delBtn(p+".blocks",bi)}</div>`:`<h3>${esc(b.title)}</h3>`}${itemsList(bp+".items")}</section>`}).join("");
+  const story=(d.story||editing)?`<details class="story" ${editing?"open":""}><summary>Contexto e historia</summary>${editing?`<textarea class="in" rows="4" data-p="${p}.story" placeholder="Texto de contexto" style="margin-top:10px">${esc(d.story)}</textarea>`:`<p>${nl(d.story)}</p>`}</details>`:"";
+  const notes=`<h2>Mis notas</h2><textarea class="in notes" rows="3" data-p="${p}.notes" placeholder="Reservas, gastos, recuerdos…">${esc(d.notes)}</textarea>`;
+  const prev=i>0?`<a class="btn" href="#dia-${i-1}">${svg("back","chev")} Día ${i-1}</a>`:"<span></span>";
+  const next=i<S.days.length-1?`<a class="btn" href="#dia-${i+1}">Día ${i+1} ${svg("chev","chev")}</a>`:"<span></span>";
+  return head+stayBar+blocks+(editing?`<button class="add" data-act="add" data-k="block" data-p="${p}.blocks">+ Añadir bloque</button>`:"")+story+notes+`<div class="pager">${prev}${next}</div>`+(editing?`<div style="margin-top:18px">${delBtn("days",i).replace("Quitar","Eliminar este día")}</div>`:"");
+}
+
+function row(label,val){return `<dt>${label}</dt><dd>${val}</dd>`}
+function viewReservas(){
+  const fl=S.flights.map((f,i)=>{const p=`flights.${i}`;
+    return `<article class="card flight">${editing?`<div class="stack"><div class="row"><input class="in" data-p="${p}.dir" value="${esc(f.dir)}" placeholder="Ida / Vuelta">${delBtn("flights",i)}</div><input class="in" data-p="${p}.route" value="${esc(f.route)}" placeholder="Ruta"><input class="in" data-p="${p}.nums" value="${esc(f.nums)}" placeholder="Aerolínea y vuelos"><input class="in" data-p="${p}.dep" value="${esc(f.dep)}" placeholder="Salida"><input class="in" data-p="${p}.arr" value="${esc(f.arr)}" placeholder="Llegada"></div>`
+      :`<div class="row"><span class="badge">${esc(f.dir)}</span></div><div class="route" style="margin-top:6px">${esc(f.route)}</div><div class="muted">${esc(f.nums)}</div><div class="times"><div><div class="k">Salida</div><div class="v">${esc(f.dep)}</div></div><div><div class="k">Llegada</div><div class="v">${esc(f.arr)}</div></div></div>`}
+     <dl class="kv" style="margin:${editing?"10px":"0"} 0 0">${row("Localizador",fld(p+".ref",{ph:"Código de reserva",empty:"Añadir"}))}${row("Asiento",fld(p+".seat",{ph:"Asiento",empty:"Añadir"}))}${row("Equipaje",fld(p+".bag",{ph:"Equipaje permitido",empty:"Añadir"}))}${(f.notes||editing)?row("Notas",fld(p+".notes",{multi:1,ph:"Notas"})):""}</dl></article>`}).join("");
+  const st=S.stays.map((s,i)=>{const p=`stays.${i}`;
+    return `<article class="card stack">${editing?`<div class="stack"><div class="row"><input class="in" data-p="${p}.name" value="${esc(s.name)}" placeholder="Nombre">${delBtn("stays",i)}</div><input class="in" data-p="${p}.city" value="${esc(s.city)}" placeholder="Ciudad"><div class="row"><input class="in" type="date" data-p="${p}.from" value="${esc(s.from)}"><input class="in" type="date" data-p="${p}.to" value="${esc(s.to)}"></div></div>`
+      :`<div><div style="font:700 17px/1.2 var(--font-display)">${esc(s.name)}</div><div class="muted" style="font-size:13.5px">${esc(s.city)}</div></div><div class="row" style="gap:16px"><div><div class="muted" style="font-size:12px;font-weight:600">Entrada</div><b>${fmt(s.from,{day:"numeric",month:"short"})}</b></div><div><div class="muted" style="font-size:12px;font-weight:600">Salida</div><b>${fmt(s.to,{day:"numeric",month:"short"})}</b></div><div><div class="muted" style="font-size:12px;font-weight:600">Noches</div><b>${nights(s.from,s.to)}</b></div></div>`}
+     <dl class="kv" style="margin:0">${s.map!==false||editing?row("Dirección",fld(p+".addr",{multi:1,ph:"Dirección",empty:"Añadir dirección"})):""}${row("Reserva",fld(p+".ref",{ph:"Código de reserva",empty:"Añadir"}))}${row("Teléfono",fld(p+".phone",{ph:"Teléfono",empty:"Añadir"}))}${(s.notes||editing)?row("Notas",fld(p+".notes",{multi:1,ph:"Notas"})):""}</dl>
+     ${s.map!==false&&!editing?`<a class="btn small" style="align-self:flex-start" href="${mapsUrl(s)}" target="_blank" rel="noopener">${svg("pin","chev")} Abrir en Google Maps</a>`:""}</article>`}).join("");
+  const mv=S.moves.map((m,i)=>{const p=`moves.${i}`;
+    return `<article class="card stack">${editing?`<div class="row"><input class="in" data-p="${p}.title" value="${esc(m.title)}" placeholder="Trayecto">${delBtn("moves",i)}</div><div class="row"><input class="in" data-p="${p}.date" value="${esc(m.date)}" placeholder="Fecha"><input class="in" data-p="${p}.time" value="${esc(m.time)}" placeholder="Hora"></div>`:`<div style="font-weight:700">${esc(m.title)}</div>`}
+     <dl class="kv" style="margin:0">${editing?"":row("Fecha",esc(m.date))}${editing?"":row("Hora",fld(p+".time",{empty:"Añadir hora"}))}${row("Reserva",fld(p+".ref",{ph:"Código o referencia",empty:"Añadir"}))}${(m.notes||editing)?row("Notas",fld(p+".notes",{multi:1,ph:"Notas"})):""}</dl></article>`}).join("");
+  return `<h2 style="margin-top:4px">Vuelos</h2><div class="stack">${fl}</div>${editing?`<button class="add" data-act="add" data-k="flight" data-p="flights">+ Añadir vuelo</button>`:""}
+   <h2>Alojamientos</h2><div class="stack">${st}</div>${editing?`<button class="add" data-act="add" data-k="stay" data-p="stays">+ Añadir alojamiento</button>`:""}
+   <h2>Traslados</h2><div class="stack">${mv}</div>${editing?`<button class="add" data-act="add" data-k="move" data-p="moves">+ Añadir traslado</button>`:""}`}
+
+function viewMaleta(){
+  const all=S.pack.reduce((n,g)=>n+g.items.length,0),dn=S.pack.reduce((n,g)=>n+g.items.filter(i=>i.d).length,0);
+  const groups=S.pack.map((g,gi)=>{const p=`pack.${gi}`;
+    return `<section class="card" style="margin-top:12px">${editing?`<div class="row" style="margin-bottom:6px"><input class="in" data-p="${p}.g" value="${esc(g.g)}" placeholder="Grupo">${delBtn("pack",gi)}</div>`:`<h3>${esc(g.g)} · ${g.items.filter(i=>i.d).length}/${g.items.length}</h3>`}
+     ${g.items.map((it,ii)=>`<div class="pk"><label><input type="checkbox" data-chk="${p}.items.${ii}.d" ${it.d?"checked":""}>${editing?`<input class="in" data-p="${p}.items.${ii}.t" value="${esc(it.t)}">`:`<span class="${it.d?"done":""}">${esc(it.t)}</span>`}</label>${editing?delBtn(p+".items",ii):""}</div>`).join("")}
+     <form class="addrow" data-addpack="${gi}"><input class="in" name="t" placeholder="Añadir a ${esc(g.g.toLowerCase())}…" aria-label="Nuevo elemento"><button class="btn small primary" type="submit">Añadir</button></form></section>`}).join("");
+  return `<div class="card"><div class="row"><b class="grow">${dn} de ${all} listas</b><span class="muted">${all?Math.round(dn/all*100):0}%</span></div><div class="bar"><i style="width:${all?Math.round(dn/all*100):0}%"></i></div></div>${groups}${editing?`<button class="add" data-act="add" data-k="group" data-p="pack">+ Añadir grupo</button>`:""}`}
+
+function viewUtil(){
+  const U="util";
+  const list=(path,title,k)=>`<section class="block"><h3>${title}</h3>${itemsList(path)}</section>`;
+  const contacts=S.util.contacts.map((c,i)=>{const p=`util.contacts.${i}`;
+    return editing?`<li class="it"><div class="main fields"><input class="in" data-p="${p}.h" value="${esc(c.h)}" placeholder="Nombre"><input class="in" data-p="${p}.t" value="${esc(c.t)}" placeholder="Teléfono o dato"></div>${delBtn("util.contacts",i)}</li>`
+      :`<li class="it"><div class="main"><b>${esc(c.h)}</b><br>${c.t?`<span style="font-size:17px;font-variant-numeric:tabular-nums">${esc(c.t)}</span>`:`<span class="ph" data-act="edit">Añadir</span>`}</div></li>`}).join("");
+  return `<section class="block" style="margin-top:0"><h3>Teléfonos y contactos</h3><ul>${contacts}</ul>${editing?`<button class="add" data-act="add" data-k="item" data-p="util.contacts">+ Añadir contacto</button>`:""}</section>
+   ${list("util.facts","Datos prácticos")}${list("util.etiquette","Etiqueta y consejos")}
+   <h2>Notas generales</h2><textarea class="in notes" rows="4" data-p="util.notes" placeholder="Gastos, direcciones, ideas…">${esc(S.util.notes)}</textarea>
+   <h2>Datos del viaje</h2><div class="card stack"><div class="muted" style="font-size:13.5px">Los cambios se guardan solos en este móvil. Haz una copia de seguridad antes del viaje y cada vez que edites mucho.</div>
+   ${deferredPrompt?`<button class="btn primary" data-act="install">Instalar la app</button>`:`<div class="muted" style="font-size:13px">Para instalarla en iPhone: Compartir → Añadir a pantalla de inicio. En Android: menú del navegador → Instalar app.</div>`}
+   <button class="btn" data-act="export">Guardar copia de seguridad</button>
+   <label class="btn" for="imp" style="cursor:pointer">Restaurar copia de seguridad</label><input id="imp" type="file" accept="application/json,.json" hidden>
+   <div id="bkmsg" class="muted" style="font-size:13px"></div>
+   ${resetArmed?`<div class="row"><button class="btn danger" data-act="reset-yes">Sí, restaurar</button><button class="btn" data-act="reset-no">Cancelar</button></div>`:`<button class="btn" data-act="reset">Restaurar guía original</button>`}</div>`}
+
+/* ============ RENDER ============ */
+function currentRoute(){const h=(location.hash||"").slice(1);return h||"inicio"}
+function render(){
+  const r=currentRoute();const app=document.getElementById("app");
+  let title="",body="",back="";
+  if(r.startsWith("dia-")){const i=parseInt(r.slice(4),10);title=S.days[i]?"Día "+i:"Día";body=viewDia(i);back=`<a class="back" href="#itinerario" aria-label="Volver al itinerario">${svg("back","chev").replace('class="chev"','style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2"')}</a>`}
+  else if(r==="itinerario"){title="Itinerario";body=viewItinerario()}
+  else if(r==="reservas"){title="Reservas";body=viewReservas()}
+  else if(r==="maleta"){title="Maleta";body=viewMaleta()}
+  else if(r==="util"){title="Útil";body=viewUtil()}
+  else{title=S.meta.title+" 2026";body=viewInicio()}
+  app.innerHTML=`<header class="top">${back}<h1>${esc(title)}</h1><span class="sync" id="sync">${statusText()}</span><button class="btn-edit ${editing?"on":""}" data-act="edit">${editing?"Listo":svg("pencil","chev").replace('class="chev"','style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2"')+" Editar"}</button></header>${editing?`<div class="edit-banner">Modo edición: toca cualquier campo para cambiarlo. Los cambios se guardan solos.</div>`:""}<main>${body}</main>`;
+  const tab=r.startsWith("dia-")?"itinerario":r;
+  document.getElementById("tabs").innerHTML=TABS.map(t=>`<a class="tab ${t[0]===tab?"on":""}" href="#${t[0]}">${svg(t[0])}<span>${t[1]}</span></a>`).join("");
+  autosize();
+}
+function autosize(){document.querySelectorAll("textarea.in").forEach(t=>{t.style.height="auto";t.style.height=(t.scrollHeight+2)+"px"})}
+
+/* ============ EVENTOS ============ */
+const TEMPLATES={
+ item:()=>I("",""),
+ block:()=>B("plan","Nuevo bloque",[]),
+ day:()=>({iso:S.days.length?S.days[S.days.length-1].iso:todayIso(),ck:"bkk",city:"Ciudad",title:"Nuevo día",tag:"",stay:"",story:"",notes:"",blocks:[]}),
+ flight:()=>({id:"f"+Date.now(),dir:"Vuelo",route:"",nums:"",dep:"",arr:"",ref:"",seat:"",bag:"",notes:""}),
+ stay:()=>({id:"s"+Date.now(),name:"Nuevo alojamiento",city:"",addr:"",from:todayIso(),to:todayIso(),ref:"",phone:"",notes:"",map:true}),
+ move:()=>({id:"m"+Date.now(),title:"Nuevo traslado",date:"",time:"",ref:"",notes:""}),
+ group:()=>({g:"Nuevo grupo",items:[]})
+};
+function onField(e){
+  const t=e.target;
+  if(t.dataset&&t.dataset.chk){setp(t.dataset.chk,t.checked);touch();render();return}
+  if(t.dataset&&t.dataset.p!==undefined){setp(t.dataset.p,t.value);if(t.tagName==="TEXTAREA")autosize();touch()}
+}
+document.addEventListener("input",onField);
+document.addEventListener("change",e=>{if(e.target.dataset&&e.target.dataset.chk)onField(e);else if(e.target.tagName==="SELECT"||e.target.type==="date")onField(e)});
+document.addEventListener("submit",e=>{
+  const f=e.target;if(f.dataset&&f.dataset.addpack!==undefined){e.preventDefault();
+    const v=f.elements.t.value.trim();if(!v)return;
+    S.pack[+f.dataset.addpack].items.push({t:v,d:false});touch();render()}
+});
+document.addEventListener("click",e=>{
+  const el=e.target.closest("[data-act]");
+  if(!el){if(armed){armed="";render()}return}
+  const a=el.dataset.act;
+  if(a==="edit"){editing=!editing;armed="";window.scrollTo({top:0});render();return}
+  if(a==="add"){const arr=get(el.dataset.p);arr.push(TEMPLATES[el.dataset.k]());touch();render();return}
+  if(a==="del"){const k=el.dataset.p+"#"+el.dataset.i;
+    if(armed===k){get(el.dataset.p).splice(+el.dataset.i,1);armed="";touch();
+      if(el.dataset.p==="days"){location.hash="#itinerario"}else render()}
+    else{armed=k;render()}return}
+  if(a==="install"&&deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(()=>{deferredPrompt=null;render()});return}
+  if(a==="export"){try{const b=new Blob([JSON.stringify({t:stamp,data:S})],{type:"application/json"});const u=URL.createObjectURL(b);const l=document.createElement("a");l.href=u;l.download="tailandia-copia-"+todayIso()+".json";document.body.appendChild(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);const m=document.getElementById("bkmsg");if(m)m.textContent="Copia generada."}catch(err){}return}
+  if(a==="reset"){resetArmed=true;render();return}
+  if(a==="reset-no"){resetArmed=false;render();return}
+  if(a==="reset-yes"){S=clone(DEFAULT);resetArmed=false;editing=false;touch();render();return}
+});
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;if(currentRoute()==="util"&&!isTyping())render()});
+window.addEventListener("appinstalled",()=>{deferredPrompt=null});
+document.addEventListener("change",e=>{
+  if(e.target.id!=="imp"||!e.target.files[0])return;
+  const r=new FileReader();r.onload=()=>{const m=document.getElementById("bkmsg");
+    try{const o=JSON.parse(r.result);if(!o||!o.data||!Array.isArray(o.data.days))throw 0;S=o.data;touch();render();const m2=document.getElementById("bkmsg");if(m2)m2.textContent="Copia restaurada."}
+    catch(err){if(m)m.textContent="Ese archivo no es una copia válida."}};
+  r.readAsText(e.target.files[0])});
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+window.addEventListener("hashchange",()=>{armed="";window.scrollTo({top:0});render()});
+render();
+</script>
+</body>
+</html>
